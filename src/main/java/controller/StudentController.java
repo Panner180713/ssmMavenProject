@@ -17,8 +17,6 @@ import java.util.*;
  * 2.可通过属性名或对象类型指定哪些模型属性需要放到session中
  * 3.当使用@SessionAttributes注解缓存对象时，handler处理类的方法中存在对应入参时，SpringMvc在implicitModel中没有找到对应对象时，
  * SpringMvc会去判断是否使用@SessionAttributes注解缓存了对象。如果缓存了，就会去查找对应的对象，如果找不到，就会抛出HttpSessionRequiredException
- * @author chenshoukai
- * @create 2019-08-06 10:16
  */
 @Controller
 @SessionAttributes(value = "student03")
