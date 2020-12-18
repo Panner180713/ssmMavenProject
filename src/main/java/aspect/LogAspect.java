@@ -13,6 +13,8 @@ import java.lang.reflect.Method;
 
 /**
  * 可以在通知方法中声明一个JoinPoint类型的参数，以访问链接细节。如方法名称和参数值
+ * @author chenshoukai
+ * @create 2019-08-13 16:51
  */
 @Component
 @Aspect
