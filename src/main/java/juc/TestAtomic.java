@@ -3,8 +3,6 @@ package juc;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @Author chenshoukai
- * @Date 2020/06/06 21:55
  * 一、i++的原子性问题：i++的实际操作分为三个步骤，“读 改 写”
  * int temp = i;
  * temp = i + 1;
