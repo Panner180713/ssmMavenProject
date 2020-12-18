@@ -5,8 +5,6 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
 
 /**
- * @Author chenshoukai
- * @Date 2020/07/01 9:21
  * 1.Spring Bean的后置处理器，允许在调用初始化方法(init-method、destroy-method)前后对bean进行额外的处理
  * 2.bean后置处理器对ioc容器中的所有bean进行逐一处理，而非单一实例。
  * 典型应用：检查bean属性是否设置正确或根据特定的标准更改bean的属性。
