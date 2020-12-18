@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <context:component-scan base-package="service,mapper,service.impl,aspect,scheduler,activemq,lifeCycle,filter">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+<!--    <bean id="testShiroService" class="service.impl.TestShiroServiceImpl" init-method="initMethod" destroy-method="destroyMethod"/>-->
+
+    <!-- 使aop注解生效 -->
+    <aop:aspectj-autoproxy/>
+
+    <!-- 使定时器注解生效 -->
+    <task:annotation-driven/>
+
+    <!-- 加载外部属性文件 -->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <!-- 配置数据源 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="${db.driver}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+        <property name="maxActive" value="10"/>
+        <property name="maxIdle" value="5"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- mybatis全局配置文件 -->
+        <property name="configLocation" value="classpath:SqlMapConfig.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- spring创建mapper代理对象并注入到ioc容器中。此种方式为批量创建，亦可单独为每个mapper文件创建 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="mapper"/>
+        <!-- 默认不需要配置此项，当有多个数据源的时候才需要配置 -->
+        <!--        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>-->
+    </bean>
+
+    <!-- 事务管理器 -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 将事务管理器交给spring,以注解方式使用事务时必须有此配置 -->
+    <tx:annotation-driven transaction-manager="txManager"/>
+
+    <!-- 以配置文件的方式使用事务 -->
+    <!-- 配置事务详情 -->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+<!--        <tx:attributes>-->
+<!--            <tx:method name="addStudent" propagation="REQUIRES_NEW" read-only="false"-->
+<!--                       rollback-for="java.lang.Throwable"/>-->
+<!--            <tx:method name="addStudentList" propagation="REQUIRED" read-only="false"-->
+<!--                       rollback-for="java.lang.Throwable"/>-->
+<!--        </tx:attributes>-->
+    </tx:advice>
+
+    <!-- 事务管理作为一种横切关注点可以通过aop方法模块化。spring通过aop框架支持声明式事务管理 -->
+    <!-- 使用aop将事务应用到方法上 -->
+    <aop:config>
+        <aop:advisor advice-ref="txAdvice" pointcut="execution(* service.impl.*.*(..))" order="1"/>
+    </aop:config>
+
+    <!--activemq配置connectionFactory-->
+<!--    <bean id="jmsFactory" class="org.apache.activemq.pool.PooledConnectionFactory">-->
+<!--        <property name="connectionFactory">-->
+<!--            <bean class="org.apache.activemq.ActiveMQConnectionFactory">-->
+<!--                <property name="brokerURL" value="tcp://192.168.6.129:61616"/>-->
+<!--            </bean>-->
+<!--        </property>-->
+<!--        <property name="maxConnections" value="100"/>-->
+<!--    </bean>-->
+
+    <!--获取消息目的地 队列-->
+<!--    <bean id="queue01" class="org.apache.activemq.command.ActiveMQQueue">-->
+<!--        &lt;!&ndash;value是队列名字&ndash;&gt;-->
+<!--        <constructor-arg index="0" value="spring-active-queue"/>-->
+<!--    </bean>-->
+
+    <!--获取消息目的地 队列-->
+<!--    <bean id="topic01" class="org.apache.activemq.command.ActiveMQTopic">-->
+<!--        &lt;!&ndash;value是队列名字&ndash;&gt;-->
+<!--        <constructor-arg index="0" value="spring-active-queue"/>-->
+<!--    </bean>-->
+
+    <!--spring提供的jms工具类，用它可以进行消息发送、接受等-->
+<!--    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">-->
+<!--        <property name="connectionFactory" ref="jmsFactory"/>-->
+<!--        <property name="defaultDestination" ref="queue01"/>-->
+<!--        <property name="messageConverter">-->
+<!--            <bean class="org.springframework.jms.support.converter.SimpleMessageConverter"/>-->
+<!--        </property>-->
+<!--    </bean>-->
+
+<!--    <bean id="defaultMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">-->
+<!--        <property name="connectionFactory" ref="jmsFactory"/>-->
+<!--        <property name="destination" ref="queue01"/>-->
+<!--        <property name="messageListener" ref="myMessageListener"/>-->
+<!--    </bean>-->
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="authenticator" ref="authenticator"/>
+        <property name="sessionManager" ref="sessionManager"/>
+        <!--单realm的情况-->
+<!--        <property name="realm" ref="shiroReam"/>-->
+        <!--多realm的情况-->
+        <property name="realms">
+            <!--多realm认证，认证顺序由list中声明顺序决定，即先由shiroRealm认证，再由secondRealm认证-->
+            <list>
+                <ref bean="shiroReam"/>
+                <ref bean="secondRealm"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--管理session的生命周期的组件-->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <!-- 设置全局会话超时时间，默认30分钟(1800000) -->
+        <property name="globalSessionTimeout" value="1800000"/>
+    </bean>
+
+    <!--缓存控制器，用来管理如用户、角色、权限等的缓存的。因为这些数据基本上很少改变，放到缓存中后可以提高访问的性能-->
+    <!--需要配置ehcache的jar包和配置文件-->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
+    </bean>
+
+    <bean id="shiroReam" class="realms.ShiroReam">
+        <property name="credentialsMatcher">
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <!--指定加密算法为MD5-->
+                <property name="hashAlgorithmName" value="MD5"/>
+                <!--指定加密的次数-->
+                <property name="hashIterations" value="1024"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="secondRealm" class="realms.SecondReam">
+        <property name="credentialsMatcher">
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <!--指定加密算法为SHA1-->
+                <property name="hashAlgorithmName" value="SHA1"/>
+                <!--指定加密的次数-->
+                <property name="hashIterations" value="1024"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="authenticator" class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
+        <!--配置多realm的认证策略，AtLeastOneSuccessfulStrategy(默认)即多realm认证中只有一个realm认证成功便成功。
+        AllSuccessfulStrategy即所有realm都认证成功才算成功-->
+        <property name="authenticationStrategy">
+            <bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy"/>
+        </property>
+    </bean>
+
+    <!--可以自动地调用配置在ioc容器中的shiro bean的生命周期方法-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- 用于启动shiro注解(1) -->
+    <bean id="authorizationAttributeSourceAdvisor" class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <!-- 用于启用shiro注解(2)，必须先配置LifecycleBeanPostProcessor-->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>
+
+    <!--bean的名字必须和web.xml文件中的DelegatingFilterProxy的filterName一致，因为shiro会来ioc容器中寻找filterName对应的filter bean-->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/jsp/login.jsp"/>
+        <property name="successUrl" value="/jsp/list.jsp"/>
+        <property name="unauthorizedUrl" value="/jsp/unauthorized.jsp"/>
+        <property name="filterChainDefinitionMap" ref="linkedHashMap"/>
+        <property name="filters">
+            <map>
+                <entry key="logout" value-ref="sessionTimeoutFilter" />
+            </map>
+        </property>
+        <!--
+            配置哪些页面需要受保护，以及访问这些页面需要的权限
+            1.anon 可以被匿名访问
+            2.authc 必须认证之后（登录）才可以访问
+            3.logout 注销
+        -->
+<!--        <property name="filterChainDefinitions">-->
+<!--            <value>-->
+<!--                /jsp/login.jsp = anon-->
+<!--                /testShiro/shiroLogin = anon-->
+<!--                /testShiro/logout = logout-->
+<!--                /testShiro/jumpToAdminPage = roles[admin]-->
+<!--                /testShiro/jumpToUserPage = roles[user]-->
+<!--                /** = authc-->
+<!--            </value>-->
+<!--        </property>-->
+    </bean>
+
+    <bean id="chainDefinitionMapFactory" class="factory.FilterChainDefinitionMapFactory"/>
+
+    <bean id="linkedHashMap" factory-bean="chainDefinitionMapFactory" factory-method="buildFilterBeanDefinitionMap"/>
+</beans>

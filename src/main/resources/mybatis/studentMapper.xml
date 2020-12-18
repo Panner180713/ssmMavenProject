@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.StudentMapper">
+    <select id="selectStudents" resultType="javaBean.Student">
+        select *
+        from student
+        <where>
+            <if test="ifAll != null">
+                and studentId != 0
+            </if>
+        </where>
+    </select>
+
+    <select id="findOneStudent" resultType="hashmap" parameterType="string">
+        select * from student where name = #{name}
+    </select>
+
+    <select id="findStudentInfoByName" parameterType="string" resultType="student">
+        select * from student where name = #{name}
+    </select>
+
+    <select id="selectStudentByName" parameterType="hashmap" resultType="student">
+        select *
+        from student
+        <where>
+            name in
+            <foreach collection="names" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
+    <insert id="addStudent" parameterType="javaBean.Student">
+        insert into student (name,age,address,classId)
+        values(#{name},#{age},#{address},#{classId})
+    </insert>
+
+    <update id="updateStudentInfo" parameterType="string">
+        update student
+        <set>
+        <if test="name != null and name != ''">
+            name = #{name},
+        </if>
+        <if test="address != null and address != ''">
+            address = #{address},
+        </if>
+        </set>
+        where studentId = #{studentId}
+    </update>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+    <context:component-scan base-package="controller,handleException"/>
+
+    <mvc:annotation-driven/>
+
+    <!--
+    若将dispatcherServlet配置为/，则springMvc将捕获web容器的所有请求，包括静态资源的请求，
+    springmvc将把它们当成普通请求来处理，因找不到对应的处理器而发生错误。使用此配置之后，会筛查进入dispatcherServlet的请求，
+    如果是没有经过映射的请求，交给web应用服务器默认的servlet进行处理。如果不是静态资源的请求，才由dispatcherServlet继续处理。
+    -->
+    <mvc:default-servlet-handler />
+
+    <!-- 使aop注解生效。若切入点为controller层的方法，则需要在spring mvc的配置文件中添加此配置，否则不能成功织入通知 -->
+    <aop:aspectj-autoproxy/>
+
+    <aop:config proxy-target-class="true"/>
+
+    <!-- 配置视图解析器 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <mvc:interceptors>
+        <bean class="interceptor.FirstInterceptor"/>
+<!--        <bean class="interceptor.SecondInterceptor"/>-->
+    </mvc:interceptors>
+</beans>

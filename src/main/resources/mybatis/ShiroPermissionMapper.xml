@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.ShiroPermissionMapper">
+    <select id="getRoleAndPermissionByUserName" parameterType="string" resultType="hashmap">
+        select c.roleName,
+        e.permission
+        from employee a
+        left join userrole b
+        on a.id = b.userId
+        left join sysrole c
+        on b.roleId = c.id
+        left join rolepermission d
+        on c.id = d.roleId
+        left join syspermission e
+        on d.permissionId = e.id
+        where a.empName = #{userName}
+        and b.invalid = '0'
+        and c.invalid = '0'
+        and d.invalid = '0'
+        and e.invalid = '0'
+    </select>
+</mapper>
