@@ -1,5 +1,6 @@
 package service;
 
+import javaBean.Employee;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,4 +18,11 @@ public interface ShiroPermissionService {
      * @Date: 2020/9/10 13:52
      **/
     List<Map<String, Object>> getRoleAndPermissionByUserName(String userName);
+
+    /**
+     * @Description: 根据用户名获取用户信息
+     * @Author: chenshoukai
+     * @Date: 2020/12/21 10:20
+     **/
+    Employee getEmployeeInfoByUserName(String userName);
 }

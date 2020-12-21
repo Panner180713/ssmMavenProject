@@ -12,6 +12,12 @@ public class Employee extends Person {
 
     private int age;
 
+    private String idCard;
+
+    private String password;
+
+    private String isDeleted;
+
     public Employee() {
     }
 
@@ -22,6 +28,30 @@ public class Employee extends Person {
     public Employee(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public String getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(String isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getId() {

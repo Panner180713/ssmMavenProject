@@ -4,6 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.ShiroPermissionMapper">
+
+    <resultMap id="employeeMap" type="javaBean.Employee">
+        <result column="id" property="id"/>
+        <result column="empName" property="name"/>
+        <result column="password" property="password"/>
+        <result column="isDeleted" property="isDeleted"/>
+    </resultMap>
+
     <select id="getRoleAndPermissionByUserName" parameterType="string" resultType="hashmap">
         select c.roleName,
         e.permission
@@ -21,5 +29,9 @@
         and c.invalid = '0'
         and d.invalid = '0'
         and e.invalid = '0'
+    </select>
+
+    <select id="getEmployeeInfoByUserName" parameterType="string" resultMap="employeeMap">
+        select id,empName,password,isDeleted from employee a where a.empName = #{userName}
     </select>
 </mapper>

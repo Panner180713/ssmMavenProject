@@ -1,5 +1,6 @@
 package service.impl;
 
+import javaBean.Employee;
 import mapper.ShiroPermissionMapper;
 import org.springframework.stereotype.Service;
 import service.ShiroPermissionService;
@@ -23,5 +24,10 @@ public class ShiroPermissionServiceImpl implements ShiroPermissionService {
     @Override
     public List<Map<String, Object>> getRoleAndPermissionByUserName(String userName) {
         return shiroPermissionMapper.getRoleAndPermissionByUserName(userName);
+    }
+
+    @Override
+    public Employee getEmployeeInfoByUserName(String userName) {
+        return shiroPermissionMapper.getEmployeeInfoByUserName(userName);
     }
 }
