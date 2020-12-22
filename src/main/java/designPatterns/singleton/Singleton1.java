@@ -35,6 +35,8 @@ public class Singleton1 {
         return instance;
     }
 
+//    private static volatile Singleton1 instance;
+
     /**
      * @Description 双重检查锁定（DCL双检查锁机制）推荐
      * @Author: chenshoukai

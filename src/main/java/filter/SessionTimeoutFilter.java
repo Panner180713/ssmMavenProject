@@ -13,7 +13,7 @@ import javax.servlet.ServletResponse;
  * @Date 2020/12/14 16:38
  */
 @Service
-public class sessionTimeoutFilter extends LogoutFilter {
+public class SessionTimeoutFilter extends LogoutFilter {
 
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {

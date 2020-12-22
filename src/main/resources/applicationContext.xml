@@ -193,7 +193,7 @@
         <property name="filterChainDefinitionMap" ref="linkedHashMap"/>
         <property name="filters">
             <map>
-                <entry key="logout" value-ref="sessionTimeoutFilter" />
+                <entry key="logout" value-ref="SessionTimeoutFilter" />
             </map>
         </property>
         <!--
