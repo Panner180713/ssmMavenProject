@@ -24,8 +24,8 @@
     <!-- 使aop注解生效 -->
     <aop:aspectj-autoproxy/>
 
-    <!-- 使定时器注解生效 -->
-    <task:annotation-driven/>
+    <!-- 使定时器注解生效，作用等同@EnableScheduling -->
+<!--    <task:annotation-driven/>-->
 
     <!-- 加载外部属性文件 -->
     <context:property-placeholder location="classpath:db.properties"/>
@@ -193,7 +193,7 @@
         <property name="filterChainDefinitionMap" ref="linkedHashMap"/>
         <property name="filters">
             <map>
-                <entry key="logout" value-ref="SessionTimeoutFilter" />
+                <entry key="logout" value-ref="sessionTimeoutFilter" />
             </map>
         </property>
         <!--
