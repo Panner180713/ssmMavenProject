@@ -24,7 +24,7 @@ public class TestClassLock {
 }
 
 class ClassLock{
-    public static synchronized void printOne(){//获取类锁的是ClassLock.class
+    public static synchronized void printOne(){//获取(类)锁的是ClassLock.class
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
@@ -33,7 +33,7 @@ class ClassLock{
         System.out.println("one");
     }
 
-    public synchronized void printTwo(){//获取对象锁的是this
+    public synchronized void printTwo(){//获取(对象)锁的是this
         System.out.println("two");
     }
 }
