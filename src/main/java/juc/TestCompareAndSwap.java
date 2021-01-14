@@ -1,8 +1,6 @@
 package juc;
 
 /**
- * @Author chenshoukai
- * @Date 2020/06/06 22:20
  * 模拟CAS算法
  * CAS（Compare-And-Swap）算法保证数据操作的原子性。
  * CAS 算法是硬件对于并发操作共享数据的支持。
@@ -19,8 +17,11 @@ public class TestCompareAndSwap {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    int expectedValue = compareAndSwap.getValue();
-                    boolean result = compareAndSwap.compareAndSet(expectedValue, (int) (Math.random()*101));
+                    boolean result = false;
+                    while(!result){
+                        int expectedValue = compareAndSwap.getValue();
+                        result = compareAndSwap.compareAndSet(expectedValue, (int) (Math.random()*101));
+                    }
                     System.out.println(result);
                 }
             }).start();
@@ -32,6 +33,11 @@ class CompareAndSwap{
     private int value;
 
     public int getValue() {
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         return value;
     }
 
