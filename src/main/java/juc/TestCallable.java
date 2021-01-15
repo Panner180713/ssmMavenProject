@@ -1,5 +1,6 @@
 package juc;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -22,8 +23,10 @@ public class TestCallable {
             System.out.println(result);
             System.out.println("-------------");
         } catch (InterruptedException e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         } catch (ExecutionException e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -32,11 +35,14 @@ public class TestCallable {
 class CallableDemo implements Callable<Integer>{
 
     @Override
-    public Integer call() throws Exception {
+    public Integer call() throws IOException {
         int sum = 0;
 
         for (int i = 0; i < 1000000; i++) {
             sum += i;
+        }
+        if(sum > 10000){
+            throw new IOException("test IOException");
         }
         return sum;
     }

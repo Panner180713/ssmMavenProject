@@ -55,7 +55,7 @@ class Clerk{
     private int productionNum = 0;
 
     public synchronized void get(){
-        while(productionNum >= 1){
+        while(productionNum >= 10){
             System.out.println("库存已满");
             try {
                 this.wait();

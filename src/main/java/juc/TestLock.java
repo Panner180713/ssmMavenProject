@@ -1,13 +1,9 @@
 package juc;
 
-import util.PrintUtil;
-
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * @Author chenshoukai
- * @Date 2020/06/07 20:34
  * 用于解决多线程安全问题的方式
  * jdk1.5之前
  * synchronized隐式锁
@@ -19,14 +15,19 @@ import java.util.concurrent.locks.ReentrantLock;
  * 注意：是一个显式锁，通过lock()方法上锁，通过unlock()方法释放锁
  */
 public class TestLock {
-    public static void main(String[] args) {
+
+    public static void executeTask(){
         LockDemo lockDemo = new LockDemo();
 
         new Thread(lockDemo,"1号窗口").start();
         new Thread(lockDemo,"2号窗口").start();
         new Thread(lockDemo,"3号窗口").start();
+    }
 
-        PrintUtil.print(new String[3]);
+    public static void main(String[] args) {
+        executeTask();
+
+        System.out.println("task over");
     }
 }
 
