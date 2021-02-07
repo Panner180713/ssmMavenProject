@@ -44,19 +44,13 @@ public class ShiroReam extends AuthorizingRealm {
         //6.构建AuthenticationInfo对象并返回，通常的实现类为SimpleAuthenticationInfo
         //6.1 principal:实体的认证信息，可以是userName，也可以是数据库记录对应的实体类对象。
         Object principal = userName;
-        //6.2 credentials:密码
-        String decryptedPassword = getDecryptedPassword(userName, new String(usernamePasswordToken.getPassword()));
-        if(employee.getPassword().equals(decryptedPassword)){
-            //6.3 realmName:当前realm对象的name，调用父类的getName()方法即可
-            String realmName = getName();
-            SimpleAuthenticationInfo simpleAuthenticationInfo = null;//new SimpleAuthenticationInfo(principal,credentials,realmName);
-            //6.4 盐值,盐值入参需要是唯一的,入参一般使用userId或随机字符串
-            ByteSource credentialsSalt = ByteSource.Util.bytes(userName);
-            simpleAuthenticationInfo = new SimpleAuthenticationInfo(principal,employee.getPassword(),credentialsSalt,realmName);
-            return simpleAuthenticationInfo;
-        }else {
-            throw new IncorrectCredentialsException();
-        }
+
+        //6.2 realmName:当前realm对象的name，调用父类的getName()方法即可
+        String realmName = getName();
+        SimpleAuthenticationInfo simpleAuthenticationInfo = null;//new SimpleAuthenticationInfo(principal,credentials,realmName);
+        //6.3 盐值,盐值入参需要是唯一的,入参一般使用userId或随机字符串
+        ByteSource credentialsSalt = ByteSource.Util.bytes(userName);
+        return new SimpleAuthenticationInfo(principal,employee.getPassword(),credentialsSalt,realmName);
     }
 
     /**
@@ -74,8 +68,8 @@ public class ShiroReam extends AuthorizingRealm {
 
     public static void main(String[] args) {
         String algorithmName = "MD5";
-        Object source = "123456";
-        Object salt = ByteSource.Util.bytes("admin");
+        Object source = "abc123";
+        Object salt = ByteSource.Util.bytes("17854125632");
         int hashIterations = 1024;
         Object result = new SimpleHash(algorithmName,source,salt,hashIterations);
         System.out.println(result);
