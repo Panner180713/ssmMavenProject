@@ -4,7 +4,7 @@ package juc;
  * @Author chenshoukai
  * @Date 2020/06/04 10:37
  */
-public class TestVolatile02 {
+public class TestSynchronized {
     public static void main(String[] args) {
         ThreadDemo02 threadDemo02 = new ThreadDemo02();
         Thread thread01 = new Thread(threadDemo02, "线程1");
@@ -18,7 +18,7 @@ public class TestVolatile02 {
 
 class ThreadDemo02 implements Runnable {
 
-    private volatile int ticket = 5;
+    private int ticket = 500;
 
     @Override
     public void run() {
@@ -26,7 +26,7 @@ class ThreadDemo02 implements Runnable {
             synchronized (this) {
                 if (ticket > 0) {
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(1);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

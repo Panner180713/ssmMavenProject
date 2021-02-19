@@ -20,11 +20,19 @@ public class TestClassLock {
                 classLock.printTwo();
             }
         }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                classLock.printThree();
+            }
+        }).start();
     }
 }
 
 class ClassLock{
-    public static synchronized void printOne(){//获取(类)锁的是ClassLock.class
+    public static synchronized void printOne(){//获取的(类)锁是ClassLock.class
+        System.out.println("进入printOne");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
@@ -33,7 +41,23 @@ class ClassLock{
         System.out.println("one");
     }
 
-    public synchronized void printTwo(){//获取(对象)锁的是this
+    public synchronized void printTwo(){//获取的(对象)锁是this
+        System.out.println("进入printTwo");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println("two");
+    }
+
+    public synchronized void printThree(){//获取的(对象)锁是this
+        System.out.println("printThree");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("three");
     }
 }

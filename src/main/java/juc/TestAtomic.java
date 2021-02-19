@@ -11,13 +11,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  * jdk1.5之后java.util.concurrent.atomic包下提供了常用的原子变量
  * 1.原子变量内部使用了volatile修饰符保证可见性
  * 2.使用CAS算法保证数据的原子性
- *
+ * 3.原子变量无法保证线程安全，由于某些方法(例如getAndIncrement)是可分割的，执行顺序有随机性
  */
 public class TestAtomic {
 
     public static void main(String[] args) {
         AtomicDemo atomicDemo = new AtomicDemo();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             new Thread(atomicDemo).start();
         }
     }
