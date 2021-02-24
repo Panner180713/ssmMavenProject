@@ -42,11 +42,9 @@ class ReadAndWrite{
         System.out.println("进入read方法");
         try {
             Thread.sleep(1000);
+            System.out.println(Thread.currentThread().getName()+"读取number的值为:"+number);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-        try {
-            System.out.println(Thread.currentThread().getName()+"读取number的值为:"+number);
         }finally {
             lock.readLock().unlock();
         }
@@ -57,12 +55,10 @@ class ReadAndWrite{
         System.out.println("进入write方法");
         try {
             Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        try {
             this.number = ++number;
             System.out.println(Thread.currentThread().getName()+"设置number的值为:"+number);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }finally {
             lock.writeLock().unlock();
         }
