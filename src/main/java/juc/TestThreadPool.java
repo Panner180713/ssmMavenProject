@@ -1,7 +1,6 @@
 package juc;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * @Author chenshoukai
@@ -9,6 +8,7 @@ import java.util.concurrent.Executors;
  */
 public class TestThreadPool {
     public static void main(String[] args) {
+//        ExecutorService pool = new ThreadPoolExecutor(5,8,60, TimeUnit.SECONDS,new ArrayBlockingQueue<>(10));
         ExecutorService pool = Executors.newFixedThreadPool(5);
         ThreadTask threadTask = new ThreadTask();
         for (int i = 0; i < 10; i++) {
