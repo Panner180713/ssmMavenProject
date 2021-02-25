@@ -2,7 +2,7 @@ package juc;
 
 /**
  * 模拟CAS算法
- * CAS（Compare-And-Swap）算法保证数据操作的原子性。
+ * CAS（Compare-And-Swap）算法和volatile关键字结合使用，保证数据操作的原子性。
  * CAS 算法是硬件对于并发操作共享数据的支持。
  * CAS 包含了三个操作数：
  * 　　内存值 V
@@ -20,7 +20,9 @@ public class TestCompareAndSwap {
                     boolean result = false;
                     while(!result){
                         int expectedValue = compareAndSwap.getValue();
-                        result = compareAndSwap.compareAndSet(expectedValue, (int) (Math.random()*101));
+                        int newValue = (int) (Math.random()*101);
+                        result = compareAndSwap.compareAndSet(expectedValue, newValue);
+                        System.out.println(expectedValue);
                     }
                     System.out.println(result);
                 }
@@ -30,14 +32,17 @@ public class TestCompareAndSwap {
 }
 
 class CompareAndSwap{
-    private int value;
+    /**
+     * volatile关键字保持可见性是CAS算法的重要一步。getValue()方法取值才能准确
+     */
+    private volatile int value;
 
     public int getValue() {
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return value;
     }
 
