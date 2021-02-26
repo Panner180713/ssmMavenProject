@@ -176,12 +176,12 @@
     <!--可以自动地调用配置在ioc容器中的shiro bean的生命周期方法-->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
-    <!-- 用于启动shiro注解(1) -->
+    <!-- 用于启动shiro注解(1)。添加此配置后若注解还是不生效，尝试把此配置移到spring mvc的配置文件中 -->
     <bean id="authorizationAttributeSourceAdvisor" class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
     </bean>
 
-    <!-- 用于启用shiro注解(2)，必须先配置LifecycleBeanPostProcessor-->
+    <!-- 用于启用shiro注解(2)，必须先配置LifecycleBeanPostProcessor。添加此配置后若注解还是不生效，尝试把此配置移到spring mvc的配置文件中-->
     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>
 
     <!--bean的名字必须和web.xml文件中的DelegatingFilterProxy的filterName一致，因为shiro会来ioc容器中寻找filterName对应的filter bean-->
@@ -189,6 +189,11 @@
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/jsp/login.jsp"/>
         <property name="successUrl" value="/jsp/list.jsp"/>
+        <!--
+          如果没有整合使用springMVC跳转页面，那么这个就是有用的，现在页面的跳转交给springMVC来控制，
+          这个权限认证不通过的配置就不起作用了，而是springMVC根据抛出异常，然后根据自定义的异常处理类，
+          跳转到指定的页面了
+        -->
         <property name="unauthorizedUrl" value="/jsp/unauthorized.jsp"/>
         <property name="filterChainDefinitionMap" ref="linkedHashMap"/>
         <property name="filters">
