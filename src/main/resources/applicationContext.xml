@@ -176,6 +176,10 @@
     <!--可以自动地调用配置在ioc容器中的shiro bean的生命周期方法-->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
+    <!--
+      启动shiro注解功能，因为shiro的注解都在controller层中，并且spring mvc文件加载优先级低于applicationContext，
+      所以应在spring mvc文件加载时，配置shiro注解功能扫描。所以shiro注解功能扫描的配置要配置在spring mvc的配置文件中
+    -->
     <!-- 用于启动shiro注解(1)。添加此配置后若注解还是不生效，尝试把此配置移到spring mvc的配置文件中 -->
     <bean id="authorizationAttributeSourceAdvisor" class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
