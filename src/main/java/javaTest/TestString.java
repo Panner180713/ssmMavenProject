@@ -5,10 +5,7 @@ import javaBean.Person;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.AbstractCollection;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author chenshoukai
@@ -47,5 +44,18 @@ public class TestString {
         Constructor declaredConstructor = employeeClass.getDeclaredConstructor(int.class, String.class);
         Object tom = declaredConstructor.newInstance(100, "tom");
         Employee manager = (Employee) tom;
+
+        System.out.println("************");
+
+        Person person1 = new Person();
+        person1.setHeight("170");
+        Person person2 = new Person();
+        person2.setHeight("175");
+        Set<Person> personSet = new TreeSet<>();
+        personSet.add(person1);
+        personSet.add(person2);
+        for (Person person : personSet) {
+            System.out.println(person);
+        }
     }
 }
