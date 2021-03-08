@@ -3,6 +3,8 @@ package javaBean;
 import java.io.Serializable;
 
 /**
+ * 如果定义的类是带泛型的，建议在实例化时指明类的泛型。
+ * 如果实例化时没有指明类的泛型，默认此泛型类型为Object类型
  * @author chenshoukai
  * @create 2019-08-06 10:35
  */

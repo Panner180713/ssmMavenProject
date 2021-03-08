@@ -1,5 +1,6 @@
 package controller;
 
+import javaTest.TestModifyIPInvoke;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -9,8 +10,11 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import service.TestShiroService;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Author chenshoukai
@@ -82,5 +86,13 @@ public class TestShiroController {
         modelAndView.addObject("isRememberMe",subject.isRemembered());
         modelAndView.addObject("isAuthenticated",subject.isAuthenticated());
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/sendRequest")
+    @ResponseBody
+    public String sendRequest(HttpServletRequest request){
+//        TestModifyIPInvoke.sendGet("http://pp9.news/portal.php","x=857917");
+        TestModifyIPInvoke.sendGet("http://60.210.113.47:10012/phe/login.action","");
+        return "success";
     }
 }

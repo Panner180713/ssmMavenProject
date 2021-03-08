@@ -57,5 +57,15 @@ public class TestString {
         for (Person person : personSet) {
             System.out.println(person);
         }
+
+        System.out.println("************");
+
+        HashMap[] maps = new HashMap[10];
+        System.out.println(maps instanceof Object[]);
+
+        System.out.println("************");
+
+        Person person3 = null;
+        person3 = (Person) person2;
     }
 }
