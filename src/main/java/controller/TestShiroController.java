@@ -34,6 +34,12 @@ public class TestShiroController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/jumpToUnauthorizedPage")
+    public ModelAndView jumpToUnauthorizedPage(){
+        ModelAndView modelAndView = new ModelAndView("unauthorized");
+        return modelAndView;
+    }
+
     @RequiresGuest
 //    @RequiresUser
     @RequestMapping(value = "/jumpToListPage")

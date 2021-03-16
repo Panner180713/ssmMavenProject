@@ -198,7 +198,7 @@
           这个权限认证不通过的配置就不起作用了，而是springMVC根据抛出异常，然后根据自定义的异常处理类，
           跳转到指定的页面了
         -->
-        <property name="unauthorizedUrl" value="/jsp/unauthorized.jsp"/>
+        <property name="unauthorizedUrl" value="/testShiro/jumpToUnauthorizedPage.action"/>
         <property name="filterChainDefinitionMap" ref="linkedHashMap"/>
         <property name="filters">
             <map>
