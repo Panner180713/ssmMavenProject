@@ -134,8 +134,16 @@
     <!--管理session的生命周期的组件-->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <!-- 设置全局会话超时时间，默认30分钟(1800000) -->
-        <property name="globalSessionTimeout" value="1800000"/>
+        <property name="globalSessionTimeout" value="15000"/>
+
+        <property name="sessionListeners">
+            <list>
+                <ref bean="sessionExpireListener"/>
+            </list>
+        </property>
     </bean>
+
+    <bean id="sessionExpireListener" class="listener.sessionExpireListener"/>
 
     <!--缓存控制器，用来管理如用户、角色、权限等的缓存的。因为这些数据基本上很少改变，放到缓存中后可以提高访问的性能-->
     <!--需要配置ehcache的jar包和配置文件-->
