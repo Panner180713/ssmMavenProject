@@ -25,7 +25,7 @@ import java.util.Map;
  * read_commited(只允许事务读取已经被其他事务提交的变更。避免脏读)、
  * repeatable_read(在这个事务执行期间，禁止其他事务对这个字段进行更新。避免脏读、不可重复读)、
  * serializable(在这个事务执行期间，禁止其他事务对这个表进行插入、更新、删除操作，所有并发问题都可以避免，但效率十分低下。避免脏读、不可重复读、幻读)。
- * 对于大多数数据库来说，默认隔离级别都是read_commited。
+ * 对于大多数数据库来说，默认隔离级别都是read_commited，mysql默认隔离级别是repeatable_read，oracle默认隔离级别是read_commited。
  * 5.默认情况下，只有未检查异常(RuntimeException和Error类型的异常)会导致事务回滚，受检查的异常不会。事务的回滚规则可以通过
  * rollbackFor和noRollbackFor属性来定义。
  * 6.timeout事务超时属性：事务在强制回滚之前可以保持多久，可以防止长期运行的事务占用资源。因为事务可在行和表上获得锁，因此长事务会占用资源，并对整体性能产生影响。
