@@ -79,41 +79,41 @@
     </aop:config>
 
     <!--activemq配置connectionFactory-->
-<!--    <bean id="jmsFactory" class="org.apache.activemq.pool.PooledConnectionFactory">-->
-<!--        <property name="connectionFactory">-->
-<!--            <bean class="org.apache.activemq.ActiveMQConnectionFactory">-->
-<!--                <property name="brokerURL" value="tcp://192.168.6.129:61616"/>-->
-<!--            </bean>-->
-<!--        </property>-->
-<!--        <property name="maxConnections" value="100"/>-->
-<!--    </bean>-->
+    <bean id="jmsFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+        <property name="connectionFactory">
+            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                <property name="brokerURL" value="tcp://192.168.6.129:61616"/>
+            </bean>
+        </property>
+        <property name="maxConnections" value="100"/>
+    </bean>
 
     <!--获取消息目的地 队列-->
-<!--    <bean id="queue01" class="org.apache.activemq.command.ActiveMQQueue">-->
-<!--        &lt;!&ndash;value是队列名字&ndash;&gt;-->
-<!--        <constructor-arg index="0" value="spring-active-queue"/>-->
-<!--    </bean>-->
+    <bean id="queue01" class="org.apache.activemq.command.ActiveMQQueue">
+        <!--value是队列名字-->
+        <constructor-arg index="0" value="spring-active-queue"/>
+    </bean>
 
     <!--获取消息目的地 队列-->
-<!--    <bean id="topic01" class="org.apache.activemq.command.ActiveMQTopic">-->
-<!--        &lt;!&ndash;value是队列名字&ndash;&gt;-->
-<!--        <constructor-arg index="0" value="spring-active-queue"/>-->
-<!--    </bean>-->
+    <bean id="topic01" class="org.apache.activemq.command.ActiveMQTopic">
+        <!--value是队列名字-->
+        <constructor-arg index="0" value="spring-active-queue"/>
+    </bean>
 
     <!--spring提供的jms工具类，用它可以进行消息发送、接受等-->
-<!--    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">-->
-<!--        <property name="connectionFactory" ref="jmsFactory"/>-->
-<!--        <property name="defaultDestination" ref="queue01"/>-->
-<!--        <property name="messageConverter">-->
-<!--            <bean class="org.springframework.jms.support.converter.SimpleMessageConverter"/>-->
-<!--        </property>-->
-<!--    </bean>-->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="jmsFactory"/>
+        <property name="defaultDestination" ref="queue01"/>
+        <property name="messageConverter">
+            <bean class="org.springframework.jms.support.converter.SimpleMessageConverter"/>
+        </property>
+    </bean>
 
-<!--    <bean id="defaultMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">-->
-<!--        <property name="connectionFactory" ref="jmsFactory"/>-->
-<!--        <property name="destination" ref="queue01"/>-->
-<!--        <property name="messageListener" ref="myMessageListener"/>-->
-<!--    </bean>-->
+    <bean id="defaultMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="jmsFactory"/>
+        <property name="destination" ref="queue01"/>
+        <property name="messageListener" ref="myMessageListener"/>
+    </bean>
 
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="cacheManager" ref="cacheManager"/>
