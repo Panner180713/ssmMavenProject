@@ -15,6 +15,6 @@ public class SchedulerTask {
 
     @Scheduled(fixedRate = 1000*5)
     public void runInSeconds(){
-        System.out.println("---->>>>秒级定时器<<<<----");
+//        System.out.println("---->>>>秒级定时器<<<<----");
     }
 }

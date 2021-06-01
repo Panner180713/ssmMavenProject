@@ -62,7 +62,7 @@ public class StudentController {
         String name = "tony";
         Map<String,String> map = studentService.findOneStudent(name);
 //        List<Map<String,String>> list = studentService.findOneStudentList(name);
-        map = studentService.findOneStudent(name);
+//        map = studentService.findOneStudent(name);
         modelAndView.addObject(map);
         modelAndView.setViewName("listStudent");
         return modelAndView;

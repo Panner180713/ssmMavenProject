@@ -63,20 +63,20 @@
 
     <!-- 以配置文件的方式使用事务 -->
     <!-- 配置事务详情 -->
-    <tx:advice id="txAdvice" transaction-manager="txManager">
+<!--    <tx:advice id="txAdvice" transaction-manager="txManager">-->
 <!--        <tx:attributes>-->
 <!--            <tx:method name="addStudent" propagation="REQUIRES_NEW" read-only="false"-->
 <!--                       rollback-for="java.lang.Throwable"/>-->
 <!--            <tx:method name="addStudentList" propagation="REQUIRED" read-only="false"-->
 <!--                       rollback-for="java.lang.Throwable"/>-->
 <!--        </tx:attributes>-->
-    </tx:advice>
+<!--    </tx:advice>-->
 
     <!-- 事务管理作为一种横切关注点可以通过aop方法模块化。spring通过aop框架支持声明式事务管理 -->
     <!-- 使用aop将事务应用到方法上 -->
-    <aop:config>
-        <aop:advisor advice-ref="txAdvice" pointcut="execution(* service.impl.*.*(..))" order="1"/>
-    </aop:config>
+<!--    <aop:config>-->
+<!--        <aop:advisor advice-ref="txAdvice" pointcut="execution(* service.impl.*.*(..))" order="1"/>-->
+<!--    </aop:config>-->
 
     <!--activemq配置connectionFactory-->
     <bean id="jmsFactory" class="org.apache.activemq.pool.PooledConnectionFactory">

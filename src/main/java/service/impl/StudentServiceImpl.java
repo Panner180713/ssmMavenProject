@@ -55,6 +55,7 @@ public class StudentServiceImpl implements StudentService {
         return studentMapper.selectStudents(ifAll);
     }
 
+    @Transactional(rollbackFor = RuntimeException.class)
     @Override
     public Map<String, String> findOneStudent(String name) {
         studentMapper.findOneStudent(name);
