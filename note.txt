@@ -1,0 +1,6 @@
+1.mybatis缓存：
+(1)一级缓存的范围有SESSION和STATEMENT两种，默认是SESSION，如果我们不需要使用一级缓存，那么我们可以把一级缓存的范围指定为STATEMENT，
+这样每次执行完一个Mapper语句后都会将一级缓存清除。如果需要更改一级缓存的范围，请在Mybatis的配置文件中，在<settings>下通过localCacheScope指定。
+<setting name="localCacheScope" value="SESSION"/>
+(2)当Mybatis整合Spring后，直接通过Spring注入Mapper的形式，如果不是在同一个事务中每个Mapper的每次查询操作都对应一个全新的SqlSession实例，
+这个时候就不会有一级缓存的命中，如有需要可以启用二级缓存。而在同一个事务中时共用的就是同一个SqlSession。
