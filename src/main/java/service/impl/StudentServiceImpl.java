@@ -23,7 +23,7 @@ import java.util.Map;
  * 4.事务的隔离级别要得到底层数据库引擎的支持，而不是应用程序或者框架的支持。oracle支持两种事务隔离级别，read_commited、serializable。
  * mysql支持四种，read_uncommited(允许事务读取未被其他事务提交的变更。脏读、不可重复读、幻读都可能出现)、
  * read_commited(只允许事务读取已经被其他事务提交的变更。避免脏读)、
- * repeatable_read(在这个事务执行期间，禁止其他事务对这个字段进行更新。避免脏读、不可重复读)、
+ * repeatable_read(在这个事务执行期间，不允许事务读取其他事务对这个字段进行的更新。避免脏读、不可重复读)、
  * serializable(在这个事务执行期间，禁止其他事务对这个表进行插入、更新、删除操作，所有并发问题都可以避免，但效率十分低下。避免脏读、不可重复读、幻读)。
  * 对于大多数数据库来说，默认隔离级别都是read_commited，mysql默认隔离级别是repeatable_read，oracle默认隔离级别是read_commited。
  * 5.默认情况下，只有未检查异常(RuntimeException和Error类型的异常)会导致事务回滚，受检查的异常不会。事务的回滚规则可以通过
